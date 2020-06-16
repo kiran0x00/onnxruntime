@@ -2,6 +2,7 @@ import pytest
 import torch
 
 from onnxruntime.capi.training import orttrainer_options as orttrainer_options
+from onnxruntime.capi.training import orttrainer
 
 
 @pytest.mark.parametrize("test_input", [
@@ -58,3 +59,34 @@ def testORTTrainerOptionsInvalidMixedPrecisionEnabledSchema():
     with pytest.raises(ValueError) as e:
         orttrainer_options.ORTTrainerOptions({'mixed_precision': {'enabled': 1}})
     assert str(e.value) == expected_msg
+
+
+def testTrainStepInfo():
+    '''Test valid initializations of TrainStepInfo'''
+
+    step_info = orttrainer.TrainStepInfo(all_finite=True, epoch=1, step=2)
+    assert step_info.all_finite is True
+    assert step_info.epoch == 1
+    assert step_info.step == 2
+
+    step_info = orttrainer.TrainStepInfo()
+    assert step_info.all_finite is None
+    assert step_info.epoch is None
+    assert step_info.step is None
+
+
+@pytest.mark.parametrize("test_input", [
+    (-1),
+    ('Hello'),
+])
+def testTrainStepInfoInvalidAllFinite(test_input):
+    '''Test invalid initialization of TrainStepInfo'''
+    with pytest.raises(AssertionError):
+        orttrainer.TrainStepInfo(all_finite=test_input)
+
+    with pytest.raises(AssertionError):
+        orttrainer.TrainStepInfo(epoch=test_input)
+
+    with pytest.raises(AssertionError):
+        orttrainer.TrainStepInfo(step=test_input)
+
