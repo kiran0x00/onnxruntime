@@ -1,7 +1,7 @@
 import pytest
 from numpy.testing import assert_allclose
 
-from onnxruntime.capi.training import pytorch_trainer
+from onnxruntime.capi.training import orttrainer
 from onnxruntime.capi.training import amp
 
 
@@ -10,7 +10,7 @@ def testDynamicLossScaler():
     default_scaler = amp.loss_scaler.DynamicLossScaler()
 
     # Initial state
-    train_step_info = pytorch_trainer.TrainStepInfo(
+    train_step_info = orttrainer.TrainStepInfo(
         all_finite=True, epoch=0, step=0)
     assert_allclose(default_scaler.loss_scale, float(1 << 16),
                     rtol=rtol, err_msg="loss scale mismatch")
