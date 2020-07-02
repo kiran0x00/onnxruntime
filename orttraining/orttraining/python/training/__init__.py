@@ -8,4 +8,5 @@ from .orttrainer_options import ORTTrainerOptions
 from .orttrainer import TrainStepInfo
 from . import optim
 from . import amp
+from . import model_desc_validation
 
