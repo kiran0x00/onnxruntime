@@ -1,2 +1,2 @@
-from .lr_scheduler import LRScheduler, ConstantWarmupLRScheduler, CosineWarmupLRScheduler,\
+from .lr_scheduler import _LRScheduler, ConstantWarmupLRScheduler, CosineWarmupLRScheduler,\
     LinearWarmupLRScheduler, PolyWarmupLRScheduler
